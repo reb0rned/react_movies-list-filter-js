@@ -1,29 +1,29 @@
 import './App.scss';
+import { useState } from 'react';
 import { MoviesList } from './components/MoviesList';
 import moviesFromServer from './api/movies.json';
-import { useState } from 'react';
 
 function getFilteredFilms(movies, query) {
-  const moviesCopy = [...movies]
 
-  if (query){
-    return moviesCopy.filter(movie => {
-      const lowerTitle = movie.title.toLowerCase()
-      const lowerDescription = movie.description.toLowerCase()
-      const lowerQuery = query.trim().toLowerCase();
+  if (query) {
+    const lowerQuery = query.trim().toLowerCase();
+    return movies.filter(movie => {
+      const lowerTitle = movie.title.toLowerCase();
+      const lowerDescription = movie.description.toLowerCase();
 
-      return lowerTitle.includes(lowerQuery)
-      || lowerDescription.includes(lowerQuery)
-    })
+      return (
+        lowerTitle.includes(lowerQuery) || lowerDescription.includes(lowerQuery)
+      );
+    });
   }
 
-  return movies
+  return movies;
 }
 
 export const App = () => {
-  const [filterBy, setfilterBy] = useState('')
+  const [filterBy, setfilterBy] = useState('');
 
-  const filteredFilms = getFilteredFilms(moviesFromServer, filterBy)
+  const filteredFilms = getFilteredFilms(moviesFromServer, filterBy);
 
   return (
     <div className="page">
@@ -52,5 +52,5 @@ export const App = () => {
 
       <div className="sidebar">Sidebar goes here</div>
     </div>
-  )
+  );
 };
